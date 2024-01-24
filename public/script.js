@@ -12,9 +12,7 @@ async function initialize() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ items }),
   });
-  const {
-    client_secret
-  } = await response.json();
+  const { client_secret } = await response.json();
 
   // You can change the apperance of the SDK by adding field here
   const appearance = {
@@ -23,7 +21,7 @@ async function initialize() {
 
   widgets = hyper.widgets({
     appearance,
-    clientSecret: client_secret
+    clientSecret: client_secret,
   });
 
   const unifiedCheckoutOptions = {
@@ -55,13 +53,11 @@ async function handleSubmit(e) {
 
   if (error && error.type === "validation_error") {
     showMessage(error.message);
-  }
-  else if (status === "succeeded") {
-    addClass("#hypers-sdk", "hidden")
-    removeClass("#orderSuccess", "hidden")
-  }
-  else {
+  } else if (error) {
     showMessage("An unexpected error occurred.");
+  } else if (status === "succeeded") {
+    addClass("#hypers-sdk", "hidden");
+    removeClass("#orderSuccess", "hidden");
   }
 
   setLoading(false);
@@ -97,25 +93,24 @@ async function checkStatus() {
 
 function setLoading(showLoader) {
   if (showLoader) {
-    show('.spinner');
-    hide('#button-text');
-  }
-  else {
-    hide('.spinner');
-    show('#button-text');
+    show(".spinner");
+    hide("#button-text");
+  } else {
+    hide(".spinner");
+    show("#button-text");
   }
 }
 
 function show(id) {
-  removeClass(id, 'hidden');
+  removeClass(id, "hidden");
 }
 function hide(id) {
-  addClass(id, 'hidden');
+  addClass(id, "hidden");
 }
 
 function showMessage(msg) {
-  show('#payment-message');
-  addText('#payment-message', msg);
+  show("#payment-message");
+  addText("#payment-message", msg);
 }
 
 function addText(id, msg) {
@@ -134,12 +129,12 @@ function removeClass(id, className) {
 }
 
 function retryPayment() {
-  hide('#orderSuccess');
-  show('.Container');
+  hide("#orderSuccess");
+  show(".Container");
   initialize();
 }
 
 function showSDK(e) {
-  hide('.Container');
-  show('#hypers-sdk');
-};
+  hide(".Container");
+  show("#hypers-sdk");
+}
